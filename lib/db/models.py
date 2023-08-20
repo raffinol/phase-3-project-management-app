@@ -13,4 +13,13 @@ class Project(Base):
     start_date = Column(DateTime)
     due_date = Column(DateTime)
     urgency = Column(String(10))
+
+class Engineers(Base):
+    __tablename__ = 'engineer'
+
+    id = Column(Integer, primary_key=True)
+
+
+
+
     
