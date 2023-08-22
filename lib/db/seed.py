@@ -19,14 +19,15 @@ for _ in range(5):
     first_name = fake.first_name()
     last_name = fake.last_name()
     engineer = Engineers(name=first_name, last_name=last_name, level=random(levels))
-    print(engineer)
+    session.add(engineer)
+    session.commit()
 
 urgency = ["high", "medium", "low"]
 for _ in range(10):
     title = fake.text(max_nb_chars=50)
     description = fake.text(max_nb_chars=150)
-    start_date = fake.past_date()
-    due_date = fake.future_date()
+    start_date = fake.past_datetime()
+    due_date = fake.future_datetime()
     project = Project(
         title=title,
         description=description,
@@ -34,7 +35,9 @@ for _ in range(10):
         due_date=due_date,
         urgency=random(urgency),
     )
-    print(project)
+    session.add(project)
+    session.commit()
+
 
 import ipdb
 
