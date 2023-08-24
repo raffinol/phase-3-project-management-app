@@ -28,12 +28,14 @@ for _ in range(10):
     description = fake.text(max_nb_chars=150)
     start_date = fake.past_datetime()
     due_date = fake.future_datetime()
+    engineer_id = fake.random_int(min=1, max=5)
     project = Project(
         title=title,
         description=description,
         start_date=start_date,
         due_date=due_date,
         urgency=random(urgency),
+        engineer_id=engineer_id,
     )
     session.add(project)
     session.commit()
