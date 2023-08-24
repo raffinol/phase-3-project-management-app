@@ -1,6 +1,5 @@
-from datetime import datetime
-from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
@@ -14,6 +13,8 @@ class Project(Base):
     start_date = Column(DateTime)
     due_date = Column(DateTime)
     urgency = Column(String(10))
+
+    engineer_id = Column(Integer, ForeignKey("engineer.id"))
 
     def __repr__(self):
         return (
@@ -35,6 +36,8 @@ class Engineers(Base):
     name = Column(String)
     last_name = Column(String)
     level = Column(String(10))
+
+    projects = relationship("Project", backref="engineer")
 
     def __repr__(self):
         return (
