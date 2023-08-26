@@ -95,7 +95,7 @@ def create_project():
 
 
 def update_project():
-    selection = input("Enter ID to update project: ")
+    selection = input("Enter project ID to update: ")
     title = input("Enter new project title: ")
     description = input("Enter new project description: ")
     start_date = input("Enter new project start date: ")
@@ -118,7 +118,18 @@ def update_project():
 
 
 def delete_project():
-    pass
+    selection = input("Enter project ID to delete: ")
+    confirm = input(
+        red(f"Are you sure you want to delete project with ID {selection}? Y/N: ")
+    )
+    if confirm == "Y" or confirm == "y":
+        session.query(Project).filter(Project.id == selection).delete()
+        session.commit()
+    elif confirm == "N" or confirm == "n":
+        delete_project()
+    else:
+        print(red("wrong selection, back to main menu"))
+        main_menu()
 
 
 def exit():
