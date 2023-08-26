@@ -15,8 +15,9 @@ def main_menu():
     print("2. See list of engineers")
     print("3. create a new project")
     print("4. Update a project")
-    print("5. Exit")
-    user_input = input("Please make a selection (1-5): ")
+    print("5. Delete a project")
+    print("6. Exit")
+    user_input = input("Please make a selection (1-6): ")
 
     handle_user_input(user_input)
 
@@ -25,7 +26,7 @@ def handle_user_input(input):
     is_number = input.isdigit()
     if is_number:
         selection = int(input)
-        if 1 <= selection <= 5:
+        if 1 <= selection <= 6:
             handle_selection(selection)
         else:
             print(red("Incorrect selection\n"))
@@ -44,6 +45,8 @@ def handle_selection(selection):
         create_project()
     elif selection == 4:
         update_project()
+    elif selection == 5:
+        delete_project()
     else:
         exit()
 
@@ -109,6 +112,13 @@ def update_project():
             project.engineer_id = engineer_id
             session.add(project)
             session.commit()
+        else:
+            print(red("Project doesn't exist\n"))
+            main_menu()
+
+
+def delete_project():
+    pass
 
 
 def exit():
