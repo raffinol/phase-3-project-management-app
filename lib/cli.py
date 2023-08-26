@@ -2,6 +2,7 @@ from prettycli import red, green
 from db.models import Project
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import pandas as pd
 
 engine = create_engine("sqlite:///db/projects-data.db")
 Session = sessionmaker(bind=engine)
@@ -40,7 +41,10 @@ def projects_list():
 
     for project in session.query(Project):
         projects.append({"id": project.id, "title": project.title})
-    print(projects)
+        df = pd.DataFrame(projects)
+    print(df.to_string(index=False))
+    print("\n")
+    main_menu()
 
 
 def exit():
