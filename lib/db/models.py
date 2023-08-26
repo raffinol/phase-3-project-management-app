@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
 
 
@@ -11,8 +11,8 @@ class Project(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(50))
     description = Column(String(150))
-    start_date = Column(DateTime)
-    due_date = Column(DateTime)
+    start_date = Column()
+    due_date = Column()
     urgency = Column(String(10))
 
     engineer_id = Column(Integer, ForeignKey("engineer.id"))

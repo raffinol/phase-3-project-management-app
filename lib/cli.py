@@ -13,8 +13,9 @@ def main_menu():
     print("Welcome to Project Tracker!\n")
     print("1. See list of projects")
     print("2. See list of engineers")
-    print("3. Exit")
-    user_input = input("Please make a selection (1-3)\n")
+    print("3. create a new project")
+    print("4. Exit")
+    user_input = input("Please make a selection (1-4): ")
 
     handle_user_input(user_input)
 
@@ -23,7 +24,7 @@ def handle_user_input(input):
     is_number = input.isdigit()
     if is_number:
         selection = int(input)
-        if 1 <= selection <= 3:
+        if 1 <= selection <= 4:
             handle_selection(selection)
         else:
             print(red("Incorrect selection\n"))
@@ -38,6 +39,8 @@ def handle_selection(selection):
         projects_list()
     elif selection == 2:
         engineers_list()
+    elif selection == 3:
+        create_project()
     else:
         exit()
 
@@ -61,6 +64,26 @@ def engineers_list():
         df = pd.DataFrame(engineers)
     print(df.to_string(index=False))
     print("\n")
+    main_menu()
+
+
+def create_project():
+    title = input("Enter project title: ")
+    description = input("Enter project description: ")
+    start_date = input("Enter project start date: ")
+    due_date = input("Enter project due date: ")
+    urgency = input("Enter project urgency (low, medium or high): ")
+    engineer_id = input("Enter the assigned engineer ID: ")
+    project = Project(
+        title=title,
+        description=description,
+        start_date=start_date,
+        due_date=due_date,
+        urgency=urgency,
+        engineer_id=engineer_id,
+    )
+    session.add(project)
+    session.commit()
     main_menu()
 
 

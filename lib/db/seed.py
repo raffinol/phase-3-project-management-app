@@ -26,8 +26,8 @@ urgency = ["high", "medium", "low"]
 for _ in range(10):
     title = fake.text(max_nb_chars=50)
     description = fake.text(max_nb_chars=150)
-    start_date = fake.past_datetime()
-    due_date = fake.future_datetime()
+    start_date = fake.past_date()
+    due_date = fake.future_date()
     engineer_id = fake.random_int(min=1, max=5)
     project = Project(
         title=title,
