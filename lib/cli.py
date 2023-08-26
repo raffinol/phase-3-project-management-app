@@ -14,8 +14,9 @@ def main_menu():
     print("1. See list of projects")
     print("2. See list of engineers")
     print("3. create a new project")
-    print("4. Exit")
-    user_input = input("Please make a selection (1-4): ")
+    print("4. Update a project")
+    print("5. Exit")
+    user_input = input("Please make a selection (1-5): ")
 
     handle_user_input(user_input)
 
@@ -24,7 +25,7 @@ def handle_user_input(input):
     is_number = input.isdigit()
     if is_number:
         selection = int(input)
-        if 1 <= selection <= 4:
+        if 1 <= selection <= 5:
             handle_selection(selection)
         else:
             print(red("Incorrect selection\n"))
@@ -41,6 +42,8 @@ def handle_selection(selection):
         engineers_list()
     elif selection == 3:
         create_project()
+    elif selection == 4:
+        update_project()
     else:
         exit()
 
@@ -84,7 +87,28 @@ def create_project():
     )
     session.add(project)
     session.commit()
+    print(green("Project added"))
     main_menu()
+
+
+def update_project():
+    selection = input("Enter ID to update project: ")
+    title = input("Enter new project title: ")
+    description = input("Enter new project description: ")
+    start_date = input("Enter new project start date: ")
+    due_date = input("Enter new project due date: ")
+    urgency = input("Enter new project urgency (low, medium or high): ")
+    engineer_id = input("Enter new assigned engineer ID: ")
+    for project in session.query(Project):
+        if project.id == int(selection):
+            project.title = title
+            project.description = description
+            project.start_date = start_date
+            project.due_date = due_date
+            project.urgency = urgency
+            project.engineer_id = engineer_id
+            session.add(project)
+            session.commit()
 
 
 def exit():
