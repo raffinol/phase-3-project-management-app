@@ -14,7 +14,7 @@ class Cli:
         self.main_menu()
 
     def main_menu(self):
-        print("Welcome to Project Tracker!\n")
+        print("\nWelcome to Project Tracker!\n")
         print("1. See list of projects")
         print("2. See list of engineers")
         print("3. create a new project")
@@ -59,7 +59,24 @@ class Cli:
             projects.append({"id": project.id, "title": project.title})
             df = pd.DataFrame(projects)
         print(df.to_string(index=False))
-        print("\n")
+        print("\n1. See project details")
+        print("2. Go back to main menu")
+        sel = input("Please make a selection (1 or 2): ")
+        is_number = sel.isdigit()
+        if is_number:
+            selection = int(sel)
+        if selection == 1:
+            self.project_details()
+        elif selection == 2:
+            self.main_menu()
+        else:
+            print(red("Option not available. Back to main menu"))
+            self.main_menu()
+
+    def project_details(self):
+        selection = input("Enter project ID to see details: ")
+        project = session.query(Project).filter(Project.id == selection).first()
+        print(project)
         self.main_menu()
 
     def engineers_list(self):
