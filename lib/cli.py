@@ -26,8 +26,9 @@ class Cli:
         print("4. Update a project")
         print("5. Delete a project")
         print("6. Add a new engineer")
-        print("7. Exit")
-        user_input = input("\nPlease make a selection (1-7): ")
+        print("7. Update engineer information")
+        print("8. Exit")
+        user_input = input("\nPlease make a selection (1-8): ")
         self.clear_screen(50)
 
         self.handle_user_input(user_input)
@@ -36,7 +37,7 @@ class Cli:
         is_number = input.isdigit()
         if is_number:
             selection = int(input)
-            if 1 <= selection <= 7:
+            if 1 <= selection <= 8:
                 self.handle_selection(selection)
             else:
                 print(red("Incorrect selection. Try again."))
@@ -58,6 +59,8 @@ class Cli:
             self.delete_project()
         elif selection == 6:
             self.add_engineer()
+        elif selection == 7:
+            self.update_engineer()
         else:
             self.exit()
 
@@ -99,7 +102,7 @@ class Cli:
             print(project)
             self.main_menu()
         else:
-            print(red("There is no project with that ID, back to main menu"))
+            print(red("There is no project with that ID, back to main menu."))
 
     def engineers_list(self):
         engineers = []
@@ -125,7 +128,7 @@ class Cli:
                 self.main_menu()
             else:
                 print("\n")
-                print(red("Option not available. Back to main menu"))
+                print(red("Option not available. Back to main menu."))
                 self.main_menu()
         else:
             print("\n")
@@ -150,7 +153,7 @@ class Cli:
             print(df.to_string(index=False))
             self.main_menu()
         else:
-            print(red("There is no engineer with that ID, back to main menu. "))
+            print(red("There is no engineer with that ID, back to main menu."))
             self.main_menu()
 
     def assigned_projects(self):
@@ -271,6 +274,9 @@ class Cli:
         self.clear_screen(4)
         print(green("Engineer added"))
         self.main_menu()
+
+    def update_engineer():
+        pass
 
     def exit(self):
         print(green("goodbye!"))
