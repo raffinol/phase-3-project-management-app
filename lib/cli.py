@@ -11,17 +11,20 @@ session = Session()
 
 class Cli:
     def __init__(self):
+        self.clear_screen(50)
+        print(green("Welcome to Project Tracker!\n"))
         self.main_menu()
 
     def main_menu(self):
-        print("\nWelcome to Project Tracker!\n")
+        print(green("Main menu \n"))
         print("1. See list of projects")
         print("2. See list of engineers")
         print("3. create a new project")
         print("4. Update a project")
         print("5. Delete a project")
         print("6. Exit")
-        user_input = input("Please make a selection (1-6): ")
+        user_input = input("\nPlease make a selection (1-6): ")
+        self.clear_screen(50)
 
         self.handle_user_input(user_input)
 
@@ -32,10 +35,10 @@ class Cli:
             if 1 <= selection <= 6:
                 self.handle_selection(selection)
             else:
-                print(red("Incorrect selection\n"))
+                print(red("Incorrect selection. Try again.\n"))
                 self.main_menu()
         else:
-            print(red("Incorrect selection\n"))
+            print(red("Incorrect selection. Try again. \n"))
             self.main_menu()
 
     def handle_selection(self, selection):
@@ -57,54 +60,81 @@ class Cli:
 
         for project in session.query(Project):
             projects.append({"id": project.id, "title": project.title})
-            df = pd.DataFrame(projects)
+        df = pd.DataFrame(projects)
+        print(green("list of projects: \n"))
         print(df.to_string(index=False))
-        print("\n1. See project details")
+        self.clear_screen(4)
+        print("1. See project details")
         print("2. Go back to main menu")
-        sel = input("Please make a selection (1 or 2): ")
+        sel = input("\nPlease make a selection (1 or 2): ")
         is_number = sel.isdigit()
         if is_number:
             selection = int(sel)
-        if selection == 1:
-            self.project_details()
-        elif selection == 2:
-            self.main_menu()
+            if selection == 1:
+                self.project_details()
+            elif selection == 2:
+                self.clear_screen(4)
+                self.main_menu()
+            else:
+                print("\n")
+                print(red("Option not available. Back to main menu."))
+                self.clear_screen(4)
+                self.main_menu()
         else:
-            print(red("Option not available. Back to main menu"))
+            print("\n")
+            print(red("Option not available. Back to main menu."))
+            self.clear_screen(4)
             self.main_menu()
 
     def project_details(self):
+        self.clear_screen(4)
         selection = input("Enter project ID to see details: ")
         project = session.query(Project).filter(Project.id == selection).first()
-        print(project)
-        self.main_menu()
+        if project:
+            self.clear_screen(4)
+            print(green("Selected project detail:"))
+            print(project)
+            self.clear_screen(2)
+            self.main_menu()
+        else:
+            print(red("There is no engineer with that ID, back to main menu"))
 
     def engineers_list(self):
         engineers = []
 
         for engineer in session.query(Engineers):
             engineers.append({"id": engineer.id, "name": engineer.name})
-            df = pd.DataFrame(engineers)
+        df = pd.DataFrame(engineers)
+        print(green("list of engineers: \n"))
         print(df.to_string(index=False))
-        print("\n1. See Engineer details")
+        self.clear_screen(4)
+        print("1. See Engineer details")
         print("2. See engineer assigned projects")
         print("3. Go back to main menu")
-        sel = input("Please make a selection (1-3): ")
+        sel = input("\nPlease make a selection (1-3): ")
         is_number = sel.isdigit()
         if is_number:
             selection = int(sel)
-        if selection == 1:
-            self.engineer_details()
-        elif selection == 2:
-            self.assigned_projects()
-        elif selection == 3:
-            self.main_menu()
+            if selection == 1:
+                self.engineer_details()
+            elif selection == 2:
+                self.assigned_projects()
+            elif selection == 3:
+                self.main_menu()
+            else:
+                print("\n")
+                print(red("Option not available. Back to main menu"))
+                self.clear_screen(4)
+                self.main_menu()
         else:
-            print(red("Option not available. Back to main menu"))
-        self.main_menu()
+            print("\n")
+            print(red("Option not available. Back to main menu."))
+            self.clear_screen(4)
+            self.main_menu()
 
     def engineer_details(self):
-        selection = input("Enter Engineer ID to see details: ")
+        selection = input("\nEnter Engineer ID to see details: ")
+        self.clear_screen(4)
         engineer = session.query(Engineers).filter(Engineers.id == selection).first()
         if engineer:
             engineer_data = [
@@ -117,11 +147,13 @@ class Cli:
             ]
             df = pd.DataFrame(engineer_data)
             print(df.to_string(index=False))
+            self.clear_screen(4)
+            self.main_menu()
         else:
             print(red("There is no engineer with that ID, back to main menu"))
 
     def assigned_projects(self):
-        selection = input("Enter Engineer ID to see details: ")
+        selection = input("\nEnter Engineer ID to see details: ")
         engineer = session.query(Engineers).filter(Engineers.id == selection).first()
         if engineer:
             projects = (
@@ -159,10 +191,11 @@ class Cli:
         session.add(project)
         session.commit()
         print(green("Project added"))
+        self.clear_screen(4)
         self.main_menu()
 
     def update_project(self):
-        selection = input("Enter project ID to update: ")
+        selection = input("\nEnter project ID to update: ")
         project = session.query(Project).filter(Project.id == selection).first()
         if project:
             title = input("Enter new project title: ")
@@ -186,9 +219,9 @@ class Cli:
             self.main_menu()
 
     def delete_project(self):
-        selection = input("Enter project ID to delete: ")
+        selection = input("\nEnter project ID to delete: ")
         confirm = input(
-            red(f"Are you sure you want to delete project with ID {selection}? Y/N: ")
+            red(f"\nAre you sure you want to delete project with ID {selection}? Y/N: ")
         )
         if confirm == "Y" or confirm == "y":
             session.query(Project).filter(Project.id == selection).delete()
@@ -202,6 +235,10 @@ class Cli:
 
     def exit(self):
         print(green("goodbye!"))
+        self.clear_screen(2)
+
+    def clear_screen(self, lines):
+        print("\n" * lines)
 
 
 if __name__ == "__main__":
