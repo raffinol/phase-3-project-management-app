@@ -300,7 +300,30 @@ class Cli:
             self.main_menu()
 
     def delete_engineer(self):
-        pass
+        selection = input("\nEnter engineer ID to delete: ")
+        engineer = session.query(Engineers).filter(Engineers.id == selection).first()
+        if engineer:
+            confirm = input(
+                red(
+                    f"\nAre you sure you want to delete engineer with ID {selection}? Y/N: "
+                )
+            )
+            if confirm == "Y" or confirm == "y":
+                session.query(Engineers).filter(Engineers.id == selection).delete()
+                session.commit()
+                self.clear_screen(4)
+                print(green("Engineer deleted"))
+                self.main_menu()
+            elif confirm == "N" or confirm == "n":
+                print("\nBack to main menu.")
+                self.main_menu()
+            else:
+                print(red("\nOption not available. Back to main menu."))
+                self.main_menu()
+        else:
+            print("\n")
+            print(red("\nOption not available. Back to main menu."))
+            self.main_menu()
 
     def exit(self):
         print(green("goodbye!"))
