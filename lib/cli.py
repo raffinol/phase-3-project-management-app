@@ -22,10 +22,10 @@ class Cli:
         print(green("Main menu \n"))
         print("1. See list of projects")
         print("2. See list of engineers")
-        print("3. create a new project")
+        print("3. Create a new project")
         print("4. Update a project")
         print("5. Delete a project")
-        print("6. add a new engineer")
+        print("6. Add a new engineer")
         print("7. Exit")
         user_input = input("\nPlease make a selection (1-7): ")
         self.clear_screen(50)
@@ -110,7 +110,7 @@ class Cli:
         print(green("list of engineers: \n"))
         print(df.to_string(index=False))
         self.clear_screen(4)
-        print("1. See Engineer details")
+        print("1. See engineer details")
         print("2. See engineer assigned projects")
         print("3. Go back to main menu")
         sel = input("\nPlease make a selection (1-3): ")
@@ -134,7 +134,7 @@ class Cli:
 
     def engineer_details(self):
         self.clear_screen(4)
-        selection = input("Enter Engineer ID to see details: ")
+        selection = input("Enter engineer ID to see details: ")
         self.clear_screen(4)
         engineer = session.query(Engineers).filter(Engineers.id == selection).first()
         if engineer:
@@ -178,11 +178,11 @@ class Cli:
             self.main_menu()
 
     def create_project(self):
-        title = input("Enter project title: ")
-        description = input("Enter project description: ")
-        start_date = input("Enter project start date: ")
-        due_date = input("Enter project due date: ")
-        urgency = input("Enter project urgency (low, medium or high): ")
+        title = input("Enter new project title: ")
+        description = input("Enter new project description: ")
+        start_date = input("Enter new project start date: ")
+        due_date = input("Enter new project due date: ")
+        urgency = input("Enter new project urgency (low, medium or high): ")
         engineer_id = input("Enter engineer ID to be assigned: ")
         project = Project(
             title=title,
@@ -250,7 +250,19 @@ class Cli:
             self.main_menu()
 
     def add_engineer(self):
-        pass
+        name = input("Enter new engineer name: ")
+        last_name = input("Enter new engineer last name: ")
+        level = input("Enter new engineer level (junior, mid or senior): ")
+        engineer = Engineers(
+            name=name,
+            last_name=last_name,
+            level=level,
+        )
+        session.add(engineer)
+        session.commit()
+        self.clear_screen(4)
+        print(green("Engineer added"))
+        self.main_menu()
 
     def exit(self):
         print(green("goodbye!"))
