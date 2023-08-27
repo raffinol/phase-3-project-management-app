@@ -86,8 +86,45 @@ class Cli:
             engineers.append({"id": engineer.id, "name": engineer.name})
             df = pd.DataFrame(engineers)
         print(df.to_string(index=False))
-        print("\n")
+        print("\n1. See Engineer details")
+        print("2. See engineer assigned projects")
+        print("3. Go back to main menu")
+        sel = input("Please make a selection (1-3): ")
+        is_number = sel.isdigit()
+        if is_number:
+            selection = int(sel)
+        if selection == 1:
+            self.engineer_details()
+        elif selection == 2:
+            self.assigned_projects()
+        elif selection == 3:
+            self.main_menu()
+        else:
+            print(red("Option not available. Back to main menu"))
         self.main_menu()
+
+    def engineer_details(self):
+        selection = input("Enter Engineer ID to see details: ")
+        engineer = session.query(Engineers).filter(Engineers.id == selection).first()
+        print(engineer)
+        self.main_menu()
+
+    def assigned_projects(self):
+        selection = input("Enter Engineer ID to see details: ")
+        engineer = session.query(Engineers).filter(Engineers.id == selection).first()
+        if engineer:
+            projects = (
+                session.query(Project).filter(Project.engineer_id == engineer.id).all()
+            )
+            projects_data = [
+                {
+                    "id": projects.id,
+                    "title": projects.title,
+                }
+                for projects in projects
+            ]
+            df = pd.DataFrame(projects_data)
+            print(df.to_string(index=False))
 
     def create_project(self):
         title = input("Enter project title: ")
