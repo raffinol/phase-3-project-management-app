@@ -16,6 +16,7 @@ class Cli:
         self.main_menu()
 
     def main_menu(self):
+        self.clear_screen(4)
         print(green("Main menu \n"))
         print("1. See list of projects")
         print("2. See list of engineers")
@@ -35,10 +36,10 @@ class Cli:
             if 1 <= selection <= 6:
                 self.handle_selection(selection)
             else:
-                print(red("Incorrect selection. Try again.\n"))
+                print(red("Incorrect selection. Try again."))
                 self.main_menu()
         else:
-            print(red("Incorrect selection. Try again. \n"))
+            print(red("Incorrect selection. Try again. "))
             self.main_menu()
 
     def handle_selection(self, selection):
@@ -73,17 +74,14 @@ class Cli:
             if selection == 1:
                 self.project_details()
             elif selection == 2:
-                self.clear_screen(4)
                 self.main_menu()
             else:
                 print("\n")
                 print(red("Option not available. Back to main menu."))
-                self.clear_screen(4)
                 self.main_menu()
         else:
             print("\n")
             print(red("Option not available. Back to main menu."))
-            self.clear_screen(4)
             self.main_menu()
 
     def project_details(self):
@@ -94,10 +92,9 @@ class Cli:
             self.clear_screen(4)
             print(green("Selected project detail:"))
             print(project)
-            self.clear_screen(2)
             self.main_menu()
         else:
-            print(red("There is no engineer with that ID, back to main menu"))
+            print(red("There is no project with that ID, back to main menu"))
 
     def engineers_list(self):
         engineers = []
@@ -124,16 +121,15 @@ class Cli:
             else:
                 print("\n")
                 print(red("Option not available. Back to main menu"))
-                self.clear_screen(4)
                 self.main_menu()
         else:
             print("\n")
             print(red("Option not available. Back to main menu."))
-            self.clear_screen(4)
             self.main_menu()
 
     def engineer_details(self):
-        selection = input("\nEnter Engineer ID to see details: ")
+        self.clear_screen(4)
+        selection = input("Enter Engineer ID to see details: ")
         self.clear_screen(4)
         engineer = session.query(Engineers).filter(Engineers.id == selection).first()
         if engineer:
@@ -147,13 +143,15 @@ class Cli:
             ]
             df = pd.DataFrame(engineer_data)
             print(df.to_string(index=False))
-            self.clear_screen(4)
             self.main_menu()
         else:
-            print(red("There is no engineer with that ID, back to main menu"))
+            print(red("There is no engineer with that ID, back to main menu. "))
+            self.main_menu()
 
     def assigned_projects(self):
-        selection = input("\nEnter Engineer ID to see details: ")
+        self.clear_screen(4)
+        selection = input("Enter Engineer ID to see projects assigned: ")
+        self.clear_screen(4)
         engineer = session.query(Engineers).filter(Engineers.id == selection).first()
         if engineer:
             projects = (
@@ -167,10 +165,11 @@ class Cli:
                 for projects in projects
             ]
             df = pd.DataFrame(projects_data)
+            print(green("Projects assigned to selected engineer: \n"))
             print(df.to_string(index=False))
             self.main_menu()
         else:
-            print(red("There is no engineer with that ID, back to main menu"))
+            print(red("There is no engineer with that ID, back to main menu. "))
             self.main_menu()
 
     def create_project(self):
@@ -179,7 +178,7 @@ class Cli:
         start_date = input("Enter project start date: ")
         due_date = input("Enter project due date: ")
         urgency = input("Enter project urgency (low, medium or high): ")
-        engineer_id = input("Enter the assigned engineer ID: ")
+        engineer_id = input("Enter engineer ID to be assigned: ")
         project = Project(
             title=title,
             description=description,
@@ -190,8 +189,8 @@ class Cli:
         )
         session.add(project)
         session.commit()
-        print(green("Project added"))
         self.clear_screen(4)
+        print(green("Project added"))
         self.main_menu()
 
     def update_project(self):
@@ -220,17 +219,28 @@ class Cli:
 
     def delete_project(self):
         selection = input("\nEnter project ID to delete: ")
-        confirm = input(
-            red(f"\nAre you sure you want to delete project with ID {selection}? Y/N: ")
-        )
-        if confirm == "Y" or confirm == "y":
-            session.query(Project).filter(Project.id == selection).delete()
-            session.commit()
-            self.main_menu()
-        elif confirm == "N" or confirm == "n":
-            self.delete_project()
+        project = session.query(Project).filter(Project.id == selection).first()
+        if project:
+            confirm = input(
+                red(
+                    f"\nAre you sure you want to delete project with ID {selection}? Y/N: "
+                )
+            )
+            if confirm == "Y" or confirm == "y":
+                session.query(Project).filter(Project.id == selection).delete()
+                session.commit()
+                self.clear_screen(4)
+                print(green("Project deleted"))
+                self.main_menu()
+            elif confirm == "N" or confirm == "n":
+                print("\nBack to main menu.")
+                self.main_menu()
+            else:
+                print(red("\nOption not available. Back to main menu."))
+                self.main_menu()
         else:
-            print(red("wrong selection, back to main menu"))
+            print("\n")
+            print(red("\nOption not available. Back to main menu.1"))
             self.main_menu()
 
     def exit(self):

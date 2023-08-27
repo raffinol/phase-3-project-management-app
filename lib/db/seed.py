@@ -39,8 +39,3 @@ for _ in range(10):
     )
     session.add(project)
     session.commit()
-
-
-import ipdb
-
-ipdb.set_trace()
