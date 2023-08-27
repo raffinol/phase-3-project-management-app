@@ -27,8 +27,9 @@ class Cli:
         print("5. Delete a project")
         print("6. Add a new engineer")
         print("7. Update engineer information")
-        print("8. Exit")
-        user_input = input("\nPlease make a selection (1-8): ")
+        print("8. Delete engineer")
+        print("9. Exit")
+        user_input = input("\nPlease make a selection (1-9): ")
         self.clear_screen(50)
 
         self.handle_user_input(user_input)
@@ -37,7 +38,7 @@ class Cli:
         is_number = input.isdigit()
         if is_number:
             selection = int(input)
-            if 1 <= selection <= 8:
+            if 1 <= selection <= 9:
                 self.handle_selection(selection)
             else:
                 print(red("Incorrect selection. Try again."))
@@ -61,6 +62,8 @@ class Cli:
             self.add_engineer()
         elif selection == 7:
             self.update_engineer()
+        elif selection == 8:
+            self.delete_engineer()
         else:
             self.exit()
 
@@ -295,6 +298,9 @@ class Cli:
             self.clear_screen(2)
             print(red("Engineer doesn't exist\n"))
             self.main_menu()
+
+    def delete_engineer(self):
+        pass
 
     def exit(self):
         print(green("goodbye!"))
