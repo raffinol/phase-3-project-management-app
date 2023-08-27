@@ -162,17 +162,25 @@ class Cli:
             projects = (
                 session.query(Project).filter(Project.engineer_id == engineer.id).all()
             )
-            projects_data = [
-                {
-                    "id": projects.id,
-                    "title": projects.title,
-                }
-                for projects in projects
-            ]
-            df = pd.DataFrame(projects_data)
-            print(green("Projects assigned to selected engineer: \n"))
-            print(df.to_string(index=False))
-            self.main_menu()
+            if projects:
+                projects_data = [
+                    {
+                        "id": projects.id,
+                        "title": projects.title,
+                    }
+                    for projects in projects
+                ]
+                df = pd.DataFrame(projects_data)
+                print(green("Projects assigned to selected engineer: \n"))
+                print(df.to_string(index=False))
+                self.main_menu()
+            else:
+                print(
+                    red(
+                        "This engineer doesn't have projects assigned, back to main menu. "
+                    )
+                )
+                self.main_menu()
         else:
             print(red("There is no engineer with that ID, back to main menu. "))
             self.main_menu()
