@@ -125,6 +125,9 @@ class Cli:
             ]
             df = pd.DataFrame(projects_data)
             print(df.to_string(index=False))
+        else:
+            print(red("There is no engineer with that ID, back to main menu"))
+            self.main_menu()
 
     def create_project(self):
         title = input("Enter project title: ")
