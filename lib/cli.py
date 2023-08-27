@@ -41,7 +41,7 @@ class Cli:
                 print(red("Incorrect selection. Try again."))
                 self.main_menu()
         else:
-            print(red("Incorrect selection. Try again. "))
+            print(red("Incorrect selection. Try again."))
             self.main_menu()
 
     def handle_selection(self, selection):
@@ -213,6 +213,7 @@ class Cli:
             project.engineer_id = engineer_id
             session.add(project)
             session.commit()
+            self.clear_screen(2)
             print(green("Project updated"))
             self.main_menu()
         else:
@@ -242,7 +243,7 @@ class Cli:
                 self.main_menu()
         else:
             print("\n")
-            print(red("\nOption not available. Back to main menu.1"))
+            print(red("\nOption not available. Back to main menu."))
             self.main_menu()
 
     def exit(self):
