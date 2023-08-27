@@ -213,12 +213,12 @@ class Cli:
         selection = input("\nEnter project ID to update: ")
         project = session.query(Project).filter(Project.id == selection).first()
         if project:
-            title = input("Enter new project title: ")
-            description = input("Enter new project description: ")
-            start_date = input("Enter new project start date: ")
-            due_date = input("Enter new project due date: ")
-            urgency = input("Enter new project urgency (low, medium or high): ")
-            engineer_id = input("Enter new assigned engineer ID: ")
+            title = input("Enter project title: ")
+            description = input("Enter project description: ")
+            start_date = input("Enter project start date: ")
+            due_date = input("Enter project due date: ")
+            urgency = input("Enter project urgency (low, medium or high): ")
+            engineer_id = input("Enter assigned engineer ID: ")
             project.title = title
             project.description = description
             project.start_date = start_date
@@ -231,6 +231,7 @@ class Cli:
             print(green("Project updated"))
             self.main_menu()
         else:
+            self.clear_screen(2)
             print(red("Project doesn't exist\n"))
             self.main_menu()
 
@@ -275,8 +276,25 @@ class Cli:
         print(green("Engineer added"))
         self.main_menu()
 
-    def update_engineer():
-        pass
+    def update_engineer(self):
+        selection = input("\nEnter engineer ID to update: ")
+        engineer = session.query(Engineers).filter(Engineers.id == selection).first()
+        if engineer:
+            name = input("Enter engineer name: ")
+            last_name = input("Enter engineer last name: ")
+            level = input("Enter engineer level (junior, mid or senior): ")
+            engineer.name = name
+            engineer.last_name = last_name
+            engineer.level = level
+            session.add(engineer)
+            session.commit()
+            self.clear_screen(2)
+            print(green("Engineer information updated"))
+            self.main_menu()
+        else:
+            self.clear_screen(2)
+            print(red("Engineer doesn't exist\n"))
+            self.main_menu()
 
     def exit(self):
         print(green("goodbye!"))
