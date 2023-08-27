@@ -106,8 +106,19 @@ class Cli:
     def engineer_details(self):
         selection = input("Enter Engineer ID to see details: ")
         engineer = session.query(Engineers).filter(Engineers.id == selection).first()
-        print(engineer)
-        self.main_menu()
+        if engineer:
+            engineer_data = [
+                {
+                    "id": engineer.id,
+                    "name": engineer.name,
+                    "last_name": engineer.last_name,
+                    "level": engineer.level,
+                }
+            ]
+            df = pd.DataFrame(engineer_data)
+            print(df.to_string(index=False))
+        else:
+            print(red("There is no engineer with that ID, back to main menu"))
 
     def assigned_projects(self):
         selection = input("Enter Engineer ID to see details: ")
@@ -125,6 +136,7 @@ class Cli:
             ]
             df = pd.DataFrame(projects_data)
             print(df.to_string(index=False))
+            self.main_menu()
         else:
             print(red("There is no engineer with that ID, back to main menu"))
             self.main_menu()
@@ -167,6 +179,8 @@ class Cli:
             project.engineer_id = engineer_id
             session.add(project)
             session.commit()
+            print(green("Project updated"))
+            self.main_menu()
         else:
             print(red("Project doesn't exist\n"))
             self.main_menu()
