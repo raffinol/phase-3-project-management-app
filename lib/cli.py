@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from prettycli import red, green
 from db.models import Project, Engineers
 from sqlalchemy import create_engine
