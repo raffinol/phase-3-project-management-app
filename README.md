@@ -48,6 +48,12 @@ Description of important files:
 - In the lib/db folder you will find the migration folders that contains a versions folder with the different modifications to the database structure. 
 - In the lib/db folder you will find seed.py file that lets you seed the database with generic information for testing purposes.
 - In the lib folder you will find the cli.py file that contains the python code to run the application that takes care of calling the database. 
+## Support
+
+Send an e-mail to [raffinol.dev@gmail.com](mailto:raffinol.dev@gmail.com)
+## License
+
+This project is licensed under the terms of the [MIT](https://choosealicense.com/licenses/mit/) license.
 
 
 
