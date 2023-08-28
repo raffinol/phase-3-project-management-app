@@ -40,6 +40,14 @@ With a sub-option to see more details on a specific engineer and another sub-opt
 7. Update engineer information: Updates engineer information based on user input.
 8. Delete engineer: Deletes an engineer based on user selection.
 9. Exit: Exit the app. 
+### Files overview
+Description of important files:
+- In the root folder you will find pipfile and Pipfile.lock files that manages the virtual environment and the dependencies needed to run the application. 
+- In the lib/db folder you will find alembic.ini, a generic database configuration file.
+- In the lib/db folder you will find models.py that keeps the classes with the format to create the database tables.
+- In the lib/db folder you will find the migration folders that contains a versions folder with the different modifications to the database structure. 
+- In the lib/db folder you will find seed.py file that lets you seed the database with generic information for testing purposes.
+- In the lib folder you will find the cli.py file that contains the python code to run the application that takes care of calling the database. 
 
 
 
