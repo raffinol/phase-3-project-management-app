@@ -5,7 +5,7 @@ This is a CLI App built with python and using SQLAlchemy to create and manage th
 - Fork and clone this repo.
 - Navigate to the repo folder and install dependencies by running: 
 
-    `npm install`
+    `pipenv install`
 - Start up the virtual environment by running:
 
     `pipenv shell`
