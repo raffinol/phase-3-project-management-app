@@ -30,7 +30,7 @@ Make sure you are in the lib folder and run:
 From the main menu you can select 9 options:
 
 1. See list of projects: Shows the id and title of the list of projects currently in the database. 
-With a sub-option to see more details on a specific of the projects.
+With a sub-option to see more details on a specific project.
 2. See list of engineers: Shows the id and name of the list of engineers currently in the database.
 With a sub-option to see more details on a specific engineer and another sub-option to see projects assigned to a specific engineer.
 3. Create a new project: Creates a new project based on user input. 
